@@ -2,6 +2,7 @@ package com.tonial.tiptime_pos1_aula3
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -43,6 +44,38 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        println("onStart")
+        Log.d("MainActivity", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("onDestroy")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("onRestart")
     }
 
     private fun calculateTip() {
