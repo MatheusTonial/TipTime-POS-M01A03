@@ -1,6 +1,7 @@
 package com.tonial.tiptime_pos1_aula3
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,9 +33,14 @@ class MainActivity : AppCompatActivity() {
         binding.calculateButton.setOnClickListener {
             calculateTip()
         }
-        val formattedTip = NumberFormat.getCurrencyInstance().format(0)
-        binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
 
+        if(savedInstanceState != null) {
+            binding.tipResult.text = savedInstanceState.getString("cost_of_tip")
+        }
+        else {
+            val formattedTip = NumberFormat.getCurrencyInstance().format(0)
+            binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
+        }
 
 
     }
@@ -44,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         val stringInTextField = binding.costOfService.text.toString()
         val cost: Double = stringInTextField.toDoubleOrNull() ?: 0.0
 
-        val selectedId:Int = binding.tipOption.checkedRadioButtonId
+        val selectedId: Int = binding.tipOption.checkedRadioButtonId
         val tipPercentage: Double = when (selectedId) {
             R.id.option_amazing -> 0.2
             R.id.option_good -> 0.18
@@ -56,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         var tip: Double = tipPercentage * cost
         val roundUp: Boolean = binding.roundUpSwitch.isChecked
 
-        if(roundUp){
+        if (roundUp) {
             tip = kotlin.math.ceil(tip)
         }
 
@@ -65,5 +71,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString("cost_of_tip", binding.tipResult.text.toString())
     }
 }
